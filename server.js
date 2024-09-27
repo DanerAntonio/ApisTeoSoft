@@ -1,7 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+
 require('dotenv').config();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,6 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
+app.use('/api/carrito', require('./src/routes/carritoRoutes'));
+app.use('/api/pedido', require('./src/routes/pedidoRoutes'));
 app.use('/api/cliente', require('./src/routes/clienteRoutes')); //FUNCIONA
 app.use('/api/usuario', require('./src/routes/usuarioRoutes')); //FUNCIONA
 app.use('/api/compras', require('./src/routes/comprasRoutes')); //FUNCIONA

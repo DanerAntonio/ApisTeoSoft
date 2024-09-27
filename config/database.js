@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const MONGO_URI = process.env.MONGO_URI || 'tu_URI_de_mongodb';
 
+
 const connectDB = async () => {
     try {
         await mongoose.connect(MONGO_URI);  // Sin las opciones que están generando la advertencia
