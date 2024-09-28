@@ -18,4 +18,5 @@ router.put('/:id', pedidoController.actualizarPedido);
 // Ruta para eliminar un pedido
 router.delete('/:id', pedidoController.eliminarPedido);
 
+// Exportar las rutas
 module.exports = router;

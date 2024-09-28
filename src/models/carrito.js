@@ -1,24 +1,29 @@
-// models/Product.js
-class Product {
-    constructor(id, name, price, image) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.image = image;
-    }
-}
+const mongoose = require('mongoose');
 
-// models/Order.js
-class Order {
-    constructor(documentNumber, fullName, phone, email, address, paymentMethod, items) {
-        this.documentNumber = documentNumber;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.paymentMethod = paymentMethod;
-        this.items = items; // Array of Product objects
+// Definición del esquema para el modelo Carrito
+const carritoSchema = new mongoose.Schema({
+  cliente: { 
+    nombre: { type: String, required: true },
+    numeroDocumento: { type: String, required: true },
+    telefono: { type: String, required: true },
+    email: { type: String, required: true },
+    direccionEnvio: { type: String, required: true }
+  },
+  productos: [
+    {
+      productoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto', required: true }, // ID del producto
+      nombre: { type: String, required: true },  // Nombre del producto
+      precio: { type: Number, required: true },  // Precio del producto
+      cantidad: { type: Number, required: true }, // Cantidad del producto
+      total: { type: Number, required: true }  // Precio total por producto (precio * cantidad)
     }
-}
+  ],
+  montoTotal: { type: Number, required: true },  // Monto total del carrito
+  metodoPago: { type: String, required: true },  // Método de pago seleccionado
+  fechaDeCreacion: { type: Date, default: Date.now }  // Fecha de creación del carrito
+});
 
-module.exports = { Product, Order };
+// Creación del modelo Carrito basado en el esquema
+const Carrito = mongoose.model('Carrito', carritoSchema);
+
+module.exports = Carrito;

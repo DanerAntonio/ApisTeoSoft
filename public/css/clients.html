@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Clientes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="clientTableBody">
+                <!-- Los datos de los clientes serán inyectados aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para ver detalles del cliente -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Detalles del Cliente</h2>
+            <p><strong>Nombre:</strong> <span id="clientName"></span></p>
+            <p><strong>Email:</strong> <span id="clientEmail"></span></p>
+            <p><strong>Teléfono:</strong> <span id="clientPhone"></span></p>
+            <p><strong>Dirección:</strong> <span id="clientAddress"></span></p>
+            <h3>Últimas Compras</h3>
+            <ul id="recentPurchasesList"></ul>
+            <h3>Incidentes</h3>
+            <ul id="incidentsList"></ul>
+        </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

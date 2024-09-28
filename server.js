@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
+app.use('/api/producto', require('./src/routes/productoRoutes'));
 app.use('/api/carrito', require('./src/routes/carritoRoutes'));
 app.use('/api/pedido', require('./src/routes/pedidoRoutes'));
 app.use('/api/cliente', require('./src/routes/clienteRoutes')); //FUNCIONA
@@ -44,5 +45,5 @@ mongoose.connect(process.env.MONGO_URI)
     console.error('Error de conexión a MongoDB:', err);
     if (err.name === 'MongooseServerSelectionError') {
       console.log('No se pudo conectar a MongoDB. Verifica tu conexión a internet y la configuración del servidor.');
-    }
-  });
+    }
+  });

@@ -1,54 +1,56 @@
-// controllers/cartController.js
-const { Product, Order } = require('../models/carrito');
+// src/controllers/carritoController.js
+const Carrito = require('../models/carrito');
 
-const products = [
-    new Product(1, 'Producto 1', 1.00, '../assets/images/producto1.jpg'),
-    // Agrega más productos aquí
-];
-
-let cart = [];
-
-// Agregar producto al carrito
-const addToCart = (productId) => {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-        cart.push({ product, quantity: 1 });
+// Crear un nuevo carrito
+exports.crearCarrito = async (req, res) => {
+    try {
+        const nuevoCarrito = new Carrito(req.body);
+        await nuevoCarrito.save();
+        res.status(201).json(nuevoCarrito);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al crear el carrito', error: error.message });
     }
 };
 
-// Cambiar cantidad del producto en el carrito
-const changeQuantity = (productId, delta) => {
-    const cartItem = cart.find(item => item.product.id === productId);
-    if (cartItem) {
-        cartItem.quantity += delta;
-        if (cartItem.quantity < 1) {
-            cart = cart.filter(item => item.product.id !== productId);
-        }
+// Obtener todos los carritos
+exports.obtenerCarritos = async (req, res) => {
+    try {
+        const carritos = await Carrito.find();
+        res.status(200).json(carritos);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los carritos', error: error.message });
     }
 };
 
-// Procesar el pedido
-const processOrder = (orderData) => {
-    const order = new Order(
-        orderData.documentNumber,
-        orderData.fullName,
-        orderData.phone,
-        orderData.email,
-        orderData.address,
-        orderData.paymentMethod,
-        cart // Agregar productos del carrito a la orden
-    );
-
-    // Aquí podrías guardar la orden en una base de datos
-    // Simulación de respuesta exitosa
-    return { success: true, order };
+// Obtener un carrito por ID
+exports.obtenerCarritoPorId = async (req, res) => {
+    try {
+        const carrito = await Carrito.findById(req.params.id);
+        if (!carrito) return res.status(404).json({ message: 'Carrito no encontrado' });
+        res.status(200).json(carrito);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el carrito', error: error.message });
+    }
 };
 
-// Exportar funciones
-module.exports = {
-    products,
-    cart,
-    addToCart,
-    changeQuantity,
-    processOrder,
+// Actualizar un carrito por ID
+exports.actualizarCarrito = async (req, res) => {
+    try {
+        const carritoActualizado = await Carrito.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!carritoActualizado) return res.status(404).json({ message: 'Carrito no encontrado' });
+        res.status(200).json(carritoActualizado);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al actualizar el carrito', error: error.message });
+    }
+};
+
+// Eliminar un carrito por ID
+exports.eliminarCarrito = async (req, res) => {
+    try {
+        const carritoEliminado = await Carrito.findByIdAndDelete(req.params.id);
+        if (!carritoEliminado) return res.status(404).json({ message: 'Carrito no encontrado' });
+        res.status(200).json({ message: 'Carrito eliminado exitosamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al eliminar el carrito', error: error.message });
+    }
 };

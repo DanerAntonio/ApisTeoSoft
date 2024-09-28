@@ -1,31 +1,21 @@
-// routes/cartRoutes.js
+// src/routes/carritoRoutes.js
 const express = require('express');
 const router = express.Router();
-const cartController = require('../controllers/carritoController');
+const carritoController = require('../controllers/carritoController');
 
-// Obtener productos
-router.get('/products', (req, res) => {
-    res.json(cartController.products);
-});
+// Crear un nuevo carrito
+router.post('/', carritoController.crearCarrito);
 
-// Agregar producto al carrito
-router.post('/cart/add', (req, res) => {
-    const { productId } = req.body;
-    cartController.addToCart(productId);
-    res.json({ success: true, cart: cartController.cart });
-});
+// Obtener todos los carritos
+router.get('/', carritoController.obtenerCarritos);
 
-// Cambiar cantidad de un producto
-router.post('/cart/change-quantity', (req, res) => {
-    const { productId, delta } = req.body;
-    cartController.changeQuantity(productId, delta);
-    res.json({ success: true, cart: cartController.cart });
-});
+// Obtener un carrito por ID
+router.get('/:id', carritoController.obtenerCarritoPorId);
 
-// Procesar pedido
-router.post('/order', (req, res) => {
-    const orderResponse = cartController.processOrder(req.body);
-    res.json(orderResponse);
-});
+// Actualizar un carrito por ID
+router.put('/:id', carritoController.actualizarCarrito);
 
-module.exports = router;
+// Eliminar un carrito por ID
+router.delete('/:id', carritoController.eliminarCarrito);
+
+module.exports = router;
